@@ -1,15 +1,10 @@
 pipeline {
     agent any
-triggers {
-        cron('* * * * *')
-    }
 	
 	  tools
     {
        maven 'maven'
     }
-    options {
-  timeout(time: 1, unit: 'HOURS')
 }
  stages {
       stage('pulling the code from git') {
