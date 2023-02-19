@@ -5,7 +5,6 @@ pipeline {
     {
        maven 'maven'
     }
-}
  stages {
       stage('pulling the code from git') {
            steps {
