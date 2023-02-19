@@ -24,14 +24,28 @@ pipeline {
                 sh 'mvn clean install'
           }
         }
+stage('Docker Build and Tag') {
+           steps {
+              
+                sh 'docker build -t samplewebapp:latest .' 
+                sh 'docker tag samplewebapp bharath0812/samplewebapp:tagname'
+                //sh 'docker tag samplewebapp bharath0812/samplewebapp:$BUILD_NUMBER'
+               
+          }
+        }
+     
+  stage('Publish image to Docker Hub') {
+          
+            steps {
+        withDockerRegistry([ credentialsId: "Docker", url: "" ]) {
+          sh  'docker push bharath0812/samplewebapp:tagname'
+        //  sh  'docker push bharath0812/samplewebapp:$BUILD_NUMBER' 
+        }
+                  
+          }
+        }
+
  }
 
-
-post { 
-        success { 
-            echo 'I will always say Hello again!'
-        }
-    }
-
-
 }
+
