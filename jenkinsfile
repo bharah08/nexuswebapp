@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+triggers {
+        cron('* * * * *')
+    }
+	
+	  tools
+    {
+       maven 'maven-3.8.7'
+    }
+    options {
+  timeout(time: 1, unit: 'HOURS')
+}
+ stages {
+      stage('pulling the code from git') {
+           steps {
+             
+                git branch: 'main', url: 'https://github.com/bharah08/nexuswebapp.git'
+             
+          }
+        }
+	 stage('build the package') {
+           steps {
+             
+                sh 'mvn clean package'             
+          }
+        }
+        stage('pckage install into local storage') {
+           steps {
+                sh 'mvn clean install'
+          }
+        }
+ }
+
+
+post { 
+        success { 
+            echo 'I will always say Hello again!'
+        }
+    }
+
+
+}
